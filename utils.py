@@ -2,31 +2,62 @@ import gym
 import numpy as np
 import matplotlib.pyplot as plt
 
-env = gym.make('Sokoban-v0')
-env.seed(0)
+def create_P_function(env):
+    P = {}
+    for state in env.get_availabel_states:
+        for next_states, action in env.get_next_state(state):
+            num_next_states = len(next_states)
+            prob = [1/ num_next_states] * num_next_states
+            P[(state, action)] = list(zip(next_states, prob))
+    return P
 
+def calculate_number_states(env):
+    num_states = 0
+    for i in range(env.room_state):
+        if i != 0:
+            num_states += 1
+    return num_states
+def learnModel(env, num_states, num_action, samples = 1e5):
+    reward = np.zeros((num_states, num_action, num_states))
+    counter_map = np.zeros((num_states, num_action, num_states))
 
-def calculate_num_states(map, num_actions):
-  """Calculates the number of states in a Sokoban environment.
+    counter = 0
+    while counter < samples:
+        state = env.reset()
+        done = False
+        
+        while True:
+            random_action = env.action_space.sample()
+            next_state, reward_, done, _ = env.step(random_action)
+            counter += 1
+            reward[state][random_action][next_state] += reward_
 
-  Args:
-    map: A 2D numpy array representing the Sokoban map.
+            state = next_state
+            counter += 1
+            
+    counter_map[counter_map == 0] = 1
+    reward /= counter_map
+    return reward
 
-  Returns:
-    The number of states in the environment.
-  """
-  height, width = map.shape
-  num_agent_positions = np.count_nonzero(map == 5)
-  num_target_cells = np.count_nonzero(map == 2)
-  num_box_positions = np.count_nonzero(map == 4)
-  num_empty_cell_positions = np.count_nonzero(map == 1)
+def plot_evaluation(success_rate, title):
+    plt.figure()
+    plt.plot(success_rate)
+    plt.title(title)
+    plt.xlabel('Episode')
+    plt.ylabel('Success Rate')
+    plt.show()
+    plt.savefig(title + '.png', dpi = 300)
+    
 
-  num_states_per_agent_position = num_actions ** num_box_positions
+def testPolicy(env, policy, trials = 100):
+    env.reset()
+    success = 0
 
-  num_states_for_all_agent_positions = num_states_per_agent_position ** num_agent_positions
-
-  num_states_for_all_empty_cell_positions = 2 ** num_empty_cell_positions
-
-  num_states = num_states_for_all_agent_positions * num_states_for_all_empty_cell_positions
-
-  return num_states
+    for _ in range(trials):
+        done = False
+        state = env.reset()
+        while not done:
+            action = policy[state]
+            state, _, done, _ = env.step(action)
+            if state == 0:
+                pass
