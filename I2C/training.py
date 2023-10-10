@@ -20,7 +20,7 @@ timer = Timer()
 USE_CUDA = torch.cuda.is_available()
 
 num_envs = 16
-env_name = "Boxoban-Train-v0"
+env_name = "Boxoban-Env-Basic"
 
 def make_env():
     def _thunk():
