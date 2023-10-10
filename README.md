@@ -1,7 +1,7 @@
 ## How to use
 
 There are 3 methods you can try, namely *policy iteration*, *value iteration*, and *Q-learning*, with corresponding file name.
-Before running /n
+Before running
 # Install gym
 ```
 pip install gym
