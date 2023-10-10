@@ -160,6 +160,7 @@ class QLearning():
                     break
                 state = new_state
         return Qtable
+<<<<<<< HEAD
     
 
 class SARSA():
@@ -275,3 +276,10 @@ class MonteCarlo():
                     N[S] += 1
                     Vtable[S] += (returns - Vtable[S]) / N[S]        
         return Vtable
+=======
+
+
+if __name__ == '__main__':
+    env = gym.make('Boxoban-Basic')
+    plt.imshow(env.reset())
+>>>>>>> b8e242290f1caee8aa36294c57f3760f5c1027f1
