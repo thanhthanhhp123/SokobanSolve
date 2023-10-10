@@ -13,7 +13,7 @@ def create_P_function(env):
 
 def calculate_number_states(env):
     num_states = 0
-    for i in range(env.room_state):
+    for i in env.room_state:
         if i != 0:
             num_states += 1
     return num_states

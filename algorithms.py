@@ -115,3 +115,8 @@ class QLearning():
                     break
                 state = new_state
         return Qtable
+
+
+if __name__ == '__main__':
+    env = gym.make('Boxoban-Basic')
+    plt.imshow(env.reset())
