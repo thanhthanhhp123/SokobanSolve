@@ -9,9 +9,10 @@ pip install gym
 
 #Install Sokoban Env
 ```
-git clone https://github.com/thanhthanhhp123/Sokoban_Env.git
-cd Sokoban_Env
-pip install -e .
+pip install gym_sokoban
 ```
-
+#Replace Sokoban Env installed by my version
+```
+https://github.com/thanhthanhhp123/Sokoban_Env.git
+```
 ## Results
